@@ -1,0 +1,64 @@
+
+services:
+  web:
+    build: .
+    restart: always
+    container_name: card-auth-system-web-1
+    expose:
+      - "5000"  # 只在内部网络暴露端口
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./app/static/uploads:/app/app/static/uploads
+      - ./https_certificates:/app/certs  # 保留证书挂载
+    environment:
+      - DEBUG=False
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=carddb
+      - DB_USER=cardadmin
+      - DB_PASSWORD=Aa145150120
+      - CERT_PATH=/app/certs/fullchain.pem  # 证书路径
+      - KEY_PATH=/app/certs/privkey.pem     # 私钥路径
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+
+  nginx:
+    image: nginx:latest
+    container_name: card-auth-system-nginx-1
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./https_certificates:/etc/nginx/ssl
+      - ./logs/nginx:/var/log/nginx
+    depends_on:
+      - web
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:14
+    restart: always
+    container_name: card-auth-system-postgres-1
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=cardadmin
+      - POSTGRES_PASSWORD=Aa145150120
+      - POSTGRES_DB=carddb
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

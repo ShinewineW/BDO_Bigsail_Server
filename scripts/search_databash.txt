@@ -1,0 +1,14 @@
+# 查看卡密表
+# docker exec -it $(docker ps -qf "name=card-auth-system-postgres-1") psql -U cardadmin -d carddb -c "SELECT * FROM cards;"
+
+# 查看用户表
+# docker exec -it $(docker ps -qf "name=card-auth-system-postgres-1") psql -U cardadmin -d carddb -c "SELECT * FROM users;"
+
+# 查看使用记录表
+# docker exec -it $(docker ps -qf "name=card-auth-system-postgres-1") psql -U cardadmin -d carddb -c "SELECT * FROM usages;"
+
+# 查看所有表名
+# docker exec -it $(docker ps -qf "name=card-auth-system-postgres-1") psql -U cardadmin -d carddb -c "\dt"
+
+# 查看特定表的结构
+# docker exec -it $(docker ps -qf "name=card-auth-system-postgres-1") psql -U cardadmin -d carddb -c "\d cards"

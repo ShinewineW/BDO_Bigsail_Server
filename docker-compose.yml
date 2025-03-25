@@ -1,0 +1,45 @@
+
+services:
+  web:
+    build: .
+    restart: always
+    container_name: card-auth-system-web-1
+    ports:
+      - "5000:5000"  # 直接暴露5000端口给外部
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./app/static/uploads:/app/app/static/uploads
+    environment:
+      - DEBUG=False
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=carddb
+      - DB_USER=cardadmin
+      - DB_PASSWORD=Aa145150120
+    depends_on:
+      - postgres
+    networks:
+      - app_network
+
+  postgres:
+    image: postgres:14
+    restart: always
+    container_name: card-auth-system-postgres-1
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=cardadmin
+      - POSTGRES_PASSWORD=Aa145150120
+      - POSTGRES_DB=carddb
+    ports:
+      - "5432:5432"
+    networks:
+      - app_network
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
