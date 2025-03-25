@@ -1,3 +1,17 @@
+"""
+File: routes.py
+Description: 路由蓝图规则，用于处理客户端发送过来的请求，并进行处理
+
+Date: 2025-03-25
+Version: 1.0
+
+Author: ShineWine
+Email: xxx@example.com
+Copyright: @Netfahter Copyright Reserved
+
+Update Log:
+    - 2025-03-25: 更新内容
+"""
 from flask import Blueprint, request, jsonify, current_app, send_from_directory
 from app import db
 from app.models.card import Card

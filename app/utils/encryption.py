@@ -1,3 +1,17 @@
+"""
+File: encryption.py
+Description: 用于加密和解密传输数据
+
+Date: 2025-03-25
+Version: 1.0
+
+Author: ShineWine
+Email: xxx@example.com
+Copyright: @Netfahter Copyright Reserved
+
+Update Log:
+    - 2025-03-25: 更新内容
+"""
 from flask import current_app
 import hashlib
 from cryptography.fernet import Fernet
