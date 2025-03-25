@@ -20,6 +20,7 @@ from app.models.usage import Usage
 from app.utils.auth import verify_card_and_user
 from app.utils.encryption import decrypt_data, encrypt_data
 from app.utils.file_handler import save_uploaded_file, get_file
+import app.version as version
 import os
 from datetime import datetime
 import uuid
@@ -73,7 +74,10 @@ def verify():
         response_data = {
             'status': 'success',
             'message': message,
-            'expiry_date': card.expiry_date.isoformat() if card.expiry_date else None
+            'expiry_date': card.expiry_date.isoformat() if card.expiry_date else None,
+            'version': version.VERSION,
+            'version_code': version.VERSION_CODE,
+            'release_date': version.RELEASE_DATE,
         }
         
         if feature == "打开程序":
