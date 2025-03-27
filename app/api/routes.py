@@ -70,11 +70,14 @@ def verify():
     try:
         db.session.commit()
         
+        # 检查是否为永久卡
+        expiry_date = "永久卡" if card.validity_period == 99999 else (card.expiry_date.isoformat() if card.expiry_date else None)
+
         # 如果功能是"打开程序"，返回解密密钥
         response_data = {
             'status': 'success',
             'message': message,
-            'expiry_date': card.expiry_date.isoformat() if card.expiry_date else None,
+            'expiry_date': expiry_date,
             'version': version.VERSION,
             'version_code': version.VERSION_CODE,
             'release_date': version.RELEASE_DATE,

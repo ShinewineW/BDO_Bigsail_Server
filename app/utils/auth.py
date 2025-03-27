@@ -151,5 +151,5 @@ def verify_card_and_user(card_key, hardware_info, ip_address, feature):
         return False, "服务器内部错误", None, None
     
     # 不应该到达这里，但以防万一
-    logger.error(f"验证过程到达了不应该到达的代码路径: 卡密={card_key}")
+    logger.error(f"验证过程到达了不应该到达的路径: 卡密={card_key}")
     return False, "未知错误", None, None

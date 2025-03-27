@@ -2,9 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 import logging
-from logging.handlers import RotatingFileHandler
+from logging.handlers import RotatingFileHandler, TimedRotatingFileHandler
 import os
 from flask import redirect, request
+from datetime import datetime
 
 # 初始化数据库
 db = SQLAlchemy()
@@ -28,7 +29,11 @@ def create_app():
     if not app.debug:
         if not os.path.exists('logs'):
             os.mkdir('logs')
-        file_handler = RotatingFileHandler('logs/card_auth.log', maxBytes=10240, backupCount=10)
+        # 使用当前时间戳作为日志文件名
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        log_filename = f'logs/card_auth_{timestamp}.log'
+        # 使用TimedRotatingFileHandler按天轮转日志
+        file_handler = TimedRotatingFileHandler(log_filename, when='midnight', interval=1, backupCount=30)
         file_handler.setFormatter(logging.Formatter(
             '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
         ))
